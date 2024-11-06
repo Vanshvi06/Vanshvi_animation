@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanshvi Animation</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff9e2c, #ff3f34, #3a9fd5);
+            background-size: 300% 300%;
+            animation: backgroundAnimation 10s ease infinite;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .text {
+            font-size: 48px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="text">Vanshvi</div>
+    <div class="box" id="box"></div>
+
+    <script>
+        // Get the box element
+        const box = document.getElementById("box");
+
+        let startTime = null;
+        let position = 0; // The starting position of the box
+        let colorProgress = 0; // Progress for changing colors
+
+        // Function to animate the box
+        function animateBox(timestamp) {
+            // The first time the function is called, store the timestamp
+            if (!startTime) startTime = timestamp;
+
+            // Calculate the time elapsed (in milliseconds)
+            const progress = timestamp - startTime;
+
+            // Move the box based on elapsed time
+            position = progress / 2; // You can adjust the speed by modifying this value
+
+            // Change the box color dynamically (Color cycling)
+            colorProgress = (position / window.innerWidth) * 360;
+            const color = `hsl(${colorProgress % 360}, 100%, 50%)`; // Dynamic color change using HSL
+
+            // Apply the movement, rotation, and color to the box
+            box.style.transform = `translateX(${position}px) rotate(${position / 10}deg)`;
+            box.style.backgroundColor = color;
+
+            // Continue animating until the box reaches the right side of the screen
+            if (position < window.innerWidth - 100) {
+                requestAnimationFrame(animateBox); // Continue the animation
+            }
+        }
+
+        // Start the animation
+        requestAnimationFrame(animateBox);
+    </script>
+
+</body>
+</html>
